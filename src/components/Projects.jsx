@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ExternalLink, FolderGit2, X, Eye, CheckCircle2, ChevronRight, ArrowLeft } from 'lucide-react';
+import { FolderGit2, Eye, CheckCircle2, ChevronRight, ArrowLeft } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 
 const projectData = [
@@ -130,13 +130,11 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
 
-  // Open modal and push history state for browser back button support
   const handleOpenProject = (project) => {
     setSelectedProject(project);
     window.history.pushState({ projectModalOpen: true, projectId: project.id }, '', `#project-${project.id}`);
   };
 
-  // Close modal and restore history state cleanly
   const handleCloseProject = () => {
     if (selectedProject) {
       setSelectedProject(null);
@@ -146,9 +144,8 @@ export default function Projects() {
     }
   };
 
-  // Listen for browser back button (popstate event)
   useEffect(() => {
-    const handlePopState = (e) => {
+    const handlePopState = () => {
       if (selectedProject) {
         setSelectedProject(null);
       }
@@ -158,7 +155,6 @@ export default function Projects() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [selectedProject]);
 
-  // Escape key listener for accessibility
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === 'Escape' && selectedProject) {
@@ -308,40 +304,28 @@ export default function Projects() {
             if (e.target === e.currentTarget) handleCloseProject();
           }}
         >
-          <div className="glass-card max-w-2xl w-full rounded-3xl border border-brand-cyan/30 p-5 sm:p-7 relative max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
+          <div className="glass-card max-w-3xl w-full rounded-3xl border border-brand-cyan/30 p-5 sm:p-7 relative max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
             
-            {/* Top Modal Navigation Bar */}
-            <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-white/10 sticky top-0 bg-dark-900/80 backdrop-blur-md z-10 -mx-1 px-1">
-              
-              {/* Back to Projects Button */}
+            {/* Top Modal Bar: ONLY ONE Back to Projects Button at Top-Left */}
+            <div className="flex items-center justify-start pb-4 mb-5 border-b border-white/10 sticky top-0 bg-dark-900/90 backdrop-blur-md z-20 -mx-1 px-1">
               <button
                 onClick={handleCloseProject}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-brand-cyan/20 border border-white/10 hover:border-brand-cyan/40 text-xs font-semibold text-gray-200 hover:text-brand-cyan transition-all duration-200 shadow-sm active:scale-95 min-h-[40px]"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/5 hover:bg-brand-cyan/20 border border-white/10 hover:border-brand-cyan/40 text-xs font-semibold text-gray-200 hover:text-brand-cyan transition-all duration-200 shadow-sm active:scale-95 min-h-[40px] cursor-pointer"
                 aria-label="Back to Projects"
               >
                 <ArrowLeft className="w-4 h-4 text-brand-cyan" />
                 <span>Back to Projects</span>
               </button>
-
-              {/* X Close Button */}
-              <button
-                onClick={handleCloseProject}
-                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/10 transition-colors shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center"
-                aria-label="Close Project Detail"
-                title="Close Overview"
-              >
-                <X className="w-5 h-5" />
-              </button>
             </div>
 
-            {/* Modal Hero Image */}
-            <div className="h-52 sm:h-60 rounded-2xl overflow-hidden mb-5 bg-dark-800 relative">
+            {/* Modal Image Container - Shows FULL Uncropped Image with object-contain */}
+            <div className="relative rounded-2xl overflow-hidden mb-6 bg-dark-800/80 border border-white/10 p-3 flex items-center justify-center min-h-[240px] sm:min-h-[320px]">
               <img
                 src={selectedProject.image}
                 alt={selectedProject.title}
-                className="w-full h-full object-cover"
+                className="max-h-[340px] sm:max-h-[380px] w-full h-auto object-contain rounded-xl shadow-lg mx-auto"
               />
-              <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-mono font-bold bg-dark-900/80 text-brand-cyan border border-brand-cyan/40 backdrop-blur-md">
+              <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-mono font-bold bg-dark-900/90 text-brand-cyan border border-brand-cyan/40 backdrop-blur-md z-10">
                 {selectedProject.category}
               </span>
             </div>
@@ -352,7 +336,7 @@ export default function Projects() {
               {selectedProject.longDescription}
             </p>
 
-            {/* Highlights */}
+            {/* Key Accomplishments */}
             <div className="mb-6">
               <h4 className="text-xs font-mono text-brand-cyan uppercase tracking-wider mb-2.5">Key Accomplishments</h4>
               <div className="space-y-2">
@@ -380,16 +364,8 @@ export default function Projects() {
               </div>
             </div>
 
-            {/* Footer Navigation & GitHub Link */}
-            <div className="flex items-center justify-between gap-3 pt-5 border-t border-white/10 mt-auto">
-              <button
-                onClick={handleCloseProject}
-                className="px-4 py-2.5 rounded-xl glass-card border border-white/15 text-gray-300 hover:text-white text-xs font-semibold flex items-center gap-1.5"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                <span>Return to Projects</span>
-              </button>
-
+            {/* Footer: View Code on GitHub Button Only */}
+            <div className="flex items-center justify-end pt-5 border-t border-white/10 mt-auto">
               <a
                 href={selectedProject.github}
                 target="_blank"
