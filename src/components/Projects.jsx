@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ExternalLink, Sparkles, FolderGit2, X, Eye, Layers, CheckCircle2, ChevronRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { ExternalLink, FolderGit2, X, Eye, CheckCircle2, ChevronRight, ArrowLeft } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 
 const projectData = [
@@ -130,6 +130,46 @@ export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // Open modal and push history state for browser back button support
+  const handleOpenProject = (project) => {
+    setSelectedProject(project);
+    window.history.pushState({ projectModalOpen: true, projectId: project.id }, '', `#project-${project.id}`);
+  };
+
+  // Close modal and restore history state cleanly
+  const handleCloseProject = () => {
+    if (selectedProject) {
+      setSelectedProject(null);
+      if (window.location.hash.startsWith('#project-')) {
+        window.history.replaceState(null, '', window.location.pathname + window.location.search + '#projects');
+      }
+    }
+  };
+
+  // Listen for browser back button (popstate event)
+  useEffect(() => {
+    const handlePopState = (e) => {
+      if (selectedProject) {
+        setSelectedProject(null);
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [selectedProject]);
+
+  // Escape key listener for accessibility
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && selectedProject) {
+        handleCloseProject();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedProject]);
+
   const filteredProjects = activeFilter === 'All'
     ? projectData
     : projectData.filter((p) => p.category === activeFilter);
@@ -196,7 +236,7 @@ export default function Projects() {
                   </span>
 
                   <button
-                    onClick={() => setSelectedProject(project)}
+                    onClick={() => handleOpenProject(project)}
                     className="absolute bottom-3 right-3 p-2 rounded-xl bg-brand-cyan text-dark-900 font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center gap-1 text-[11px] shadow-lg"
                   >
                     <Eye className="w-3.5 h-3.5" />
@@ -234,7 +274,7 @@ export default function Projects() {
               {/* Card Footer Actions */}
               <div className="px-5 pb-5 pt-2 flex items-center justify-between border-t border-white/5">
                 <button
-                  onClick={() => setSelectedProject(project)}
+                  onClick={() => handleOpenProject(project)}
                   className="text-xs font-semibold text-brand-cyan hover:text-white flex items-center gap-1 group/btn"
                 >
                   <span>Project Overview</span>
@@ -262,51 +302,77 @@ export default function Projects() {
 
       {/* Detail Dialog Modal */}
       {selectedProject && (
-        <div className="fixed inset-0 z-50 p-4 sm:p-6 bg-dark-900/90 backdrop-blur-xl flex items-center justify-center animate-fadeIn">
-          <div className="glass-card max-w-2xl w-full rounded-3xl border border-brand-cyan/30 p-6 relative max-h-[90vh] overflow-y-auto shadow-2xl">
+        <div 
+          className="fixed inset-0 z-50 p-3 sm:p-6 bg-dark-900/90 backdrop-blur-xl flex items-center justify-center animate-fadeIn overflow-y-auto"
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleCloseProject();
+          }}
+        >
+          <div className="glass-card max-w-2xl w-full rounded-3xl border border-brand-cyan/30 p-5 sm:p-7 relative max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
             
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-5 right-5 p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/10"
-            >
-              <X className="w-5 h-5" />
-            </button>
+            {/* Top Modal Navigation Bar */}
+            <div className="flex items-center justify-between gap-3 pb-4 mb-5 border-b border-white/10 sticky top-0 bg-dark-900/80 backdrop-blur-md z-10 -mx-1 px-1">
+              
+              {/* Back to Projects Button */}
+              <button
+                onClick={handleCloseProject}
+                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/5 hover:bg-brand-cyan/20 border border-white/10 hover:border-brand-cyan/40 text-xs font-semibold text-gray-200 hover:text-brand-cyan transition-all duration-200 shadow-sm active:scale-95 min-h-[40px]"
+                aria-label="Back to Projects"
+              >
+                <ArrowLeft className="w-4 h-4 text-brand-cyan" />
+                <span>Back to Projects</span>
+              </button>
 
-            <div className="h-56 rounded-2xl overflow-hidden mb-5 bg-dark-800 relative">
+              {/* X Close Button */}
+              <button
+                onClick={handleCloseProject}
+                className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border border-white/10 transition-colors shrink-0 min-h-[40px] min-w-[40px] flex items-center justify-center"
+                aria-label="Close Project Detail"
+                title="Close Overview"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Modal Hero Image */}
+            <div className="h-52 sm:h-60 rounded-2xl overflow-hidden mb-5 bg-dark-800 relative">
               <img
                 src={selectedProject.image}
                 alt={selectedProject.title}
                 className="w-full h-full object-cover"
               />
-              <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-mono font-bold bg-dark-900/80 text-brand-cyan border border-brand-cyan/40">
+              <span className="absolute top-3 left-3 px-3 py-1 rounded-full text-xs font-mono font-bold bg-dark-900/80 text-brand-cyan border border-brand-cyan/40 backdrop-blur-md">
                 {selectedProject.category}
               </span>
             </div>
 
-            <h3 className="text-xl font-extrabold text-white mb-2">{selectedProject.title}</h3>
-            <p className="text-xs text-gray-300 leading-relaxed mb-5">
+            {/* Title & Description */}
+            <h3 className="text-xl sm:text-2xl font-extrabold text-white mb-3">{selectedProject.title}</h3>
+            <p className="text-xs sm:text-sm text-gray-300 leading-relaxed mb-6">
               {selectedProject.longDescription}
             </p>
 
-            <div className="mb-5">
-              <h4 className="text-xs font-mono text-brand-cyan uppercase tracking-wider mb-2">Key Accomplishments</h4>
-              <div className="space-y-1.5">
+            {/* Highlights */}
+            <div className="mb-6">
+              <h4 className="text-xs font-mono text-brand-cyan uppercase tracking-wider mb-2.5">Key Accomplishments</h4>
+              <div className="space-y-2">
                 {selectedProject.highlights.map((item, i) => (
-                  <div key={i} className="flex items-start gap-2 text-xs text-gray-300">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-brand-cyan shrink-0 mt-0.5" />
+                  <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm text-gray-300">
+                    <CheckCircle2 className="w-4 h-4 text-brand-cyan shrink-0 mt-0.5" />
                     <span>{item}</span>
                   </div>
                 ))}
               </div>
             </div>
 
+            {/* Technologies */}
             <div className="mb-6">
-              <h4 className="text-xs font-mono text-brand-violet uppercase tracking-wider mb-2">Technologies Used</h4>
-              <div className="flex flex-wrap gap-1.5">
+              <h4 className="text-xs font-mono text-brand-violet uppercase tracking-wider mb-2.5">Technologies Used</h4>
+              <div className="flex flex-wrap gap-2">
                 {selectedProject.technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="px-2.5 py-1 rounded-md text-xs font-mono bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30"
+                    className="px-3 py-1 rounded-lg text-xs font-mono bg-brand-cyan/10 text-brand-cyan border border-brand-cyan/30"
                   >
                     {tech}
                   </span>
@@ -314,12 +380,21 @@ export default function Projects() {
               </div>
             </div>
 
-            <div className="flex items-center gap-3 pt-4 border-t border-white/10">
+            {/* Footer Navigation & GitHub Link */}
+            <div className="flex items-center justify-between gap-3 pt-5 border-t border-white/10 mt-auto">
+              <button
+                onClick={handleCloseProject}
+                className="px-4 py-2.5 rounded-xl glass-card border border-white/15 text-gray-300 hover:text-white text-xs font-semibold flex items-center gap-1.5"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                <span>Return to Projects</span>
+              </button>
+
               <a
                 href={selectedProject.github}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-violet text-dark-900 font-bold text-xs flex items-center gap-2 shadow-lg"
+                className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-cyan to-brand-violet text-dark-900 font-bold text-xs flex items-center gap-2 shadow-lg shadow-brand-cyan/20 hover:scale-105 transition-transform"
               >
                 <GithubIcon className="w-4 h-4" />
                 <span>View Code on GitHub</span>
