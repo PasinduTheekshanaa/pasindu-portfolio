@@ -17,8 +17,8 @@ const projectData = [
       'Real-time image classification inference pipeline',
       'Collaborative 5-member team development lifecycle'
     ],
-    github: 'https://github.com/PasinduTheekshanaa',
-    demo: 'https://github.com/PasinduTheekshanaa',
+    github: 'https://github.com/Kasuni5626/Traffic-Sign-Recognition',
+    demo: 'https://github.com/Kasuni5626/Traffic-Sign-Recognition',
   },
   {
     id: 2,
@@ -51,8 +51,8 @@ const projectData = [
       'Material Design UI with custom RecyclerView adapters',
       'User authentication & emergency profile management'
     ],
-    github: 'https://github.com/PasinduTheekshanaa',
-    demo: 'https://github.com/PasinduTheekshanaa',
+    github: 'https://github.com/kithminilindapitiya/ICT3214_MAD_Emergency_Contact_Helper',
+    demo: 'https://github.com/kithminilindapitiya/ICT3214_MAD_Emergency_Contact_Helper',
   },
   {
     id: 4,
@@ -68,8 +68,8 @@ const projectData = [
       'Modern dark aesthetic with smooth animation transitions',
       'Custom Flutter audio state management'
     ],
-    github: 'https://github.com/PasinduTheekshanaa',
-    demo: 'https://github.com/PasinduTheekshanaa',
+    github: 'https://github.com/PasinduTheekshanaa/Melodyne-app',
+    demo: 'https://github.com/PasinduTheekshanaa/Melodyne-app',
   },
   {
     id: 5,
@@ -102,8 +102,8 @@ const projectData = [
       'Dataset preprocessing & augmentation techniques',
       'Model precision & sensitivity evaluation'
     ],
-    github: 'https://github.com/PasinduTheekshanaa',
-    demo: 'https://github.com/PasinduTheekshanaa',
+    github: 'https://github.com/SANDULFERNANDO/Stellarx-Diagnostic-System',
+    demo: 'https://github.com/SANDULFERNANDO/Stellarx-Diagnostic-System',
   },
   {
     id: 7,
@@ -190,12 +190,12 @@ export default function Projects() {
 
   return (
     <section id="projects" className="py-24 relative overflow-hidden">
-      
+
       {/* Background Glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-cyan/5 blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        
+
         {/* Section Header */}
         <div className="flex flex-col items-center text-center mb-12">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-card border border-brand-cyan/30 text-brand-cyan text-xs font-mono mb-3">
@@ -217,11 +217,10 @@ export default function Projects() {
             <button
               key={cat}
               onClick={() => setActiveFilter(cat)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${
-                activeFilter === cat
-                  ? 'bg-gradient-to-r from-brand-cyan to-brand-violet text-dark-900 shadow-md shadow-brand-cyan/20 scale-105 font-bold'
-                  : 'glass-card text-gray-300 hover:text-white hover:border-brand-cyan/30'
-              }`}
+              className={`px-4 py-2 rounded-xl text-xs font-semibold transition-all duration-200 ${activeFilter === cat
+                ? 'bg-gradient-to-r from-brand-cyan to-brand-violet text-dark-900 shadow-md shadow-brand-cyan/20 scale-105 font-bold'
+                : 'glass-card text-gray-300 hover:text-white hover:border-brand-cyan/30'
+                }`}
             >
               {cat}
             </button>
@@ -244,7 +243,7 @@ export default function Projects() {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/40 to-transparent" />
-                  
+
                   <span className="absolute top-3 left-3 px-2.5 py-1 rounded-full text-[10px] font-mono font-semibold bg-dark-900/80 backdrop-blur-md text-brand-cyan border border-brand-cyan/30">
                     {project.category}
                   </span>
@@ -316,14 +315,14 @@ export default function Projects() {
 
       {/* Detail Dialog Modal */}
       {selectedProject && (
-        <div 
+        <div
           className="fixed inset-0 z-50 p-3 sm:p-6 bg-dark-900/90 backdrop-blur-xl flex items-center justify-center animate-fadeIn overflow-y-auto"
           onClick={(e) => {
             if (e.target === e.currentTarget) handleCloseProject();
           }}
         >
           <div className="glass-card max-w-3xl w-full rounded-3xl border border-brand-cyan/30 p-5 sm:p-7 relative max-h-[90vh] overflow-y-auto shadow-2xl flex flex-col">
-            
+
             {/* Top Modal Bar: ONLY ONE Back to Projects Button at Top-Left */}
             <div className="flex items-center justify-start pb-4 mb-5 border-b border-white/10 sticky top-0 bg-dark-900/90 backdrop-blur-md z-20 -mx-1 px-1">
               <button

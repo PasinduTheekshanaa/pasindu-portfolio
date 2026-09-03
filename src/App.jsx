@@ -9,6 +9,7 @@ import Certifications from './components/Certifications';
 import Achievements from './components/Achievements';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import CustomCursor from './components/CustomCursor';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState('home');
@@ -39,6 +40,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-dark-900 text-gray-100 relative">
+      <CustomCursor />
       {/* Navigation Bar */}
       <Navbar activeSection={activeSection} />
 
