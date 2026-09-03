@@ -7,6 +7,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [copiedPhone, setCopiedPhone] = useState(false);
   const [showReferences, setShowReferences] = useState(false);
@@ -33,27 +34,47 @@ export default function Contact() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
+    setSubmitError(false);
 
-    setTimeout(() => {
+    try {
+      const response = await fetch('https://formspree.io/f/xeaqkooz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      if (response.ok) {
+        setIsSubmitted(true);
+        setFormData({ name: '', email: '', message: '' });
+
+        try {
+          confetti({
+            particleCount: 90,
+            spread: 80,
+            origin: { y: 0.6 },
+          });
+        } catch (err) {}
+
+        setTimeout(() => setIsSubmitted(false), 6000);
+      } else {
+        setSubmitError(true);
+        setTimeout(() => setSubmitError(false), 6000);
+      }
+    } catch (err) {
+      setSubmitError(true);
+      setTimeout(() => setSubmitError(false), 6000);
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-      setFormData({ name: '', email: '', message: '' });
-
-      try {
-        confetti({
-          particleCount: 90,
-          spread: 80,
-          origin: { y: 0.6 }
-        });
-      } catch (err) {}
-
-      setTimeout(() => setIsSubmitted(false), 5000);
-    }, 1200);
+    }
   };
 
   const handleCopyEmail = () => {
@@ -222,9 +243,19 @@ export default function Contact() {
                   <div className="w-12 h-12 rounded-full bg-brand-emerald/20 text-brand-emerald flex items-center justify-center mb-3">
                     <Sparkles className="w-6 h-6" />
                   </div>
-                  <h4 className="text-base font-bold text-white">Message Received!</h4>
+                  <h4 className="text-base font-bold text-white">Message Sent!</h4>
                   <p className="text-xs text-gray-300 mt-1 max-w-sm">
-                    Thank you for reaching out, Pasindu will get back to you as soon as possible.
+                    Thank you! Your message has been sent successfully.
+                  </p>
+                </div>
+              ) : submitError ? (
+                <div className="p-8 rounded-2xl bg-red-500/10 border border-red-500/30 text-center flex flex-col items-center animate-fadeIn">
+                  <div className="w-12 h-12 rounded-full bg-red-500/20 text-red-400 flex items-center justify-center mb-3">
+                    <Send className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-base font-bold text-white">Submission Failed</h4>
+                  <p className="text-xs text-gray-300 mt-1 max-w-sm">
+                    Something went wrong. Please try again.
                   </p>
                 </div>
               ) : (

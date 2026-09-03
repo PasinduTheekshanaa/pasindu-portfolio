@@ -43,7 +43,7 @@ const projectData = [
     category: 'Mobile App',
     description: 'An Android application providing quick access to emergency services, contacts, SOS triggers, and location broadcasting.',
     longDescription: 'Features user authentication, profile management, local database storage using SQLite, and instant SOS alert dispatching. Designed following Google Material Design guidelines with optimized RecyclerViews.',
-    image: '/assets/projects/visual_aid.png',
+    image: '/assets/projects/plant_growth.png',
     technologies: ['Java', 'Android Studio', 'SQLite', 'RecyclerView', 'Git & GitHub'],
     highlights: [
       'Instant one-tap SOS emergency trigger dispatch',
@@ -111,7 +111,7 @@ const projectData = [
     category: 'Computer Vision',
     description: 'An automated computer vision image-processing solution to monitor plant growth rates in controlled environments.',
     longDescription: 'Utilizes computer vision techniques for automated leaf color segmentation, height measurement, and canopy area estimation to analyze plant health trends automatically.',
-    image: '/assets/projects/visual_aid.png',
+    image: '/assets/projects/emergency_contact.png',
     technologies: ['Python', 'OpenCV', 'Image Processing', 'NumPy'],
     highlights: [
       'Automated canopy area & height measurement',
@@ -122,9 +122,27 @@ const projectData = [
     github: 'https://github.com/PasinduTheekshanaa',
     demo: 'https://github.com/PasinduTheekshanaa',
   },
+  {
+    id: 8,
+    title: 'Clothing E-Commerce Website',
+    category: 'Web Development',
+    description: 'A responsive clothing e-commerce website developed using HTML, CSS, and JavaScript with modern product browsing, clothing product cards, and category-based navigation.',
+    longDescription: 'A responsive clothing e-commerce website developed using HTML, CSS, and JavaScript. The website includes a modern product browsing interface, clothing product cards, category-based navigation, interactive UI elements, and a responsive layout designed for desktop and mobile users.',
+    image: '/assets/projects/ecommerce_clothing.png',
+    technologies: ['HTML', 'CSS', 'JavaScript'],
+    highlights: [
+      'Designed and developed a responsive clothing e-commerce website',
+      'Created product cards and clothing catalogue sections',
+      'Implemented interactive frontend functionality using JavaScript',
+      'Built responsive navigation and layouts using HTML and CSS',
+      'Focused on a modern, user-friendly shopping interface'
+    ],
+    github: 'https://github.com/PasinduTheekshanaa',
+    demo: 'https://github.com/PasinduTheekshanaa',
+  },
 ];
 
-const categories = ['All', 'AI & Computer Vision', 'Web App', 'Mobile App', 'Networking & Security'];
+const categories = ['All', 'AI & Computer Vision', 'Web App', 'Web Development', 'Mobile App', 'Networking & Security'];
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState('All');

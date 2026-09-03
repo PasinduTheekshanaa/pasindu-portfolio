@@ -11,7 +11,7 @@ export default function About() {
       borderColor: 'border-brand-cyan/30',
     },
     {
-      value: '06+',
+      value: '07+',
       label: 'University Projects',
       icon: <FolderGit2 className="w-6 h-6 text-brand-violet" />,
       color: 'from-brand-violet/20 to-brand-violet/5',

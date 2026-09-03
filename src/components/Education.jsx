@@ -35,25 +35,6 @@ export default function Education() {
         'Entrepreneurship',
         'Information & Communication Technology'
       ]
-    },
-    {
-      degree: 'G.C.E. Ordinary Level (O/L)',
-      institution: 'Mo/Mahamathya Science College, Bibile',
-      faculty: 'Secondary Education',
-      status: 'Completed (2017)',
-      period: '2017',
-      location: 'Bibile, Sri Lanka',
-      results: [
-        { subject: 'ICT', grade: 'A' },
-        { subject: 'Mathematics', grade: 'B' },
-        { subject: 'Science', grade: 'B' },
-        { subject: 'Buddhism', grade: 'B' },
-        { subject: 'Sinhala', grade: 'B' },
-        { subject: 'English', grade: 'C' },
-        { subject: 'Business & Accounting Studies', grade: 'C' },
-        { subject: 'History', grade: 'C' },
-        { subject: 'Art', grade: 'C' },
-      ]
     }
   ];
 

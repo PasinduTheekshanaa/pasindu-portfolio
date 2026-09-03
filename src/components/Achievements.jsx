@@ -11,7 +11,7 @@ export default function Achievements() {
     },
     {
       title: 'Multi-Domain University Projects',
-      description: 'Designed and developed 7 comprehensive projects across AI, computer vision, web engineering, mobile development (Flutter/Android), and enterprise networking.',
+      description: 'Designed and developed 8 comprehensive projects across AI, computer vision, web engineering, mobile development (Flutter/Android), and enterprise networking.',
       icon: <Code2 className="w-6 h-6 text-brand-violet" />,
       tag: 'Practical Engineering',
     },
